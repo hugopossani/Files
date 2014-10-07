@@ -43,7 +43,7 @@ function submitCookie(id) {
   element.value = JSON.stringify(data);
   //element.disabled = true;
   //element.style.display = "none";
-  element.disabled = false;
+  element.disabled = true;
   element.style.display = "block";
 }
 
