@@ -107,7 +107,7 @@ AudioGraph.prototype.pan = function(duration){
  * @param	callback 	callback to execute when the JSON loads
  */
 AudioGraph.prototype.getValues = function(filename, callback){
-	var url = "https://guelphsonification.github.io/Files/" + filename + ".json&callback=?"
+	var url = "https://guelphsonification.github.io/Files/" + filename + ".json&callback=?";
 	var object = this;
 	var jqxhr = $.getJSON( url, function(results){ callback(); object.setValues(results);});
 }
