@@ -40,11 +40,12 @@ function deleteCookie() {
  */
 function submitCookie(id) {
   var element = document.getElementById(id);
-  element.value = JSON.stringify(data);
+  //element.value = JSON.stringify(data);
   //element.disabled = true;
   //element.style.display = "none";
-  element.disabled = true;
+  element.disabled = false;
   element.style.display = "block";
+  parseDate(id);
 }
 
 
@@ -66,6 +67,27 @@ function readCookie() {
  }
 }
 
+/**
+ * Parses the 'data' string, with the contents of the cookie
+ *  @param    id	ID of the element in which to submit the cookie
+ *
+ */
+function parseDate(id) {
+    var element = document.getElementById(id);
+    var stringElement;
+    
+    element.value = "";
+    
+    for(var i = 0; i < data.sessions.length; i++) {
+        stringElement = "Graph: " + data.sessions[i].graph;
+        stringElement += "; Replays: " + data.sessions[i].replays;
+        stringElement += "; Total time: " + data.sessions[i].totalTime / 1000; //Converting to seconds
+        stringElement += " - ";
+        
+        element.value += stringElement;
+        element.disabled = true;
+    }
+}
 
 
 
