@@ -113,8 +113,7 @@ AudioGraph.prototype.getValues = function(filename, callback){
         type: 'GET',
         crossDomain: true,
         dataType: 'jsonp',
-        success: function(results){ callback(); object.setValues(results);},
-        beforeSend: setHeader
+        success: function(results){ callback(); object.setValues(results);}
     });
 }
 
