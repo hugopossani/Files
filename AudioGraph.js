@@ -11,7 +11,7 @@ var context = new AudioContext();
  *
  * @param	expression	the function to base the audio graph on as a string
  */
-function AudioGraph(expression, callback){
+function AudioGraph(expression){
 
 	this.panX = -1;
 	this.panZ = 0;
@@ -24,7 +24,7 @@ function AudioGraph(expression, callback){
 	this.freqValuesLow = null;
 	this.gain_values = null;
 
-	this.getValues(expression, callback);
+	this.getValues(expression);
 };
 
 
@@ -106,17 +106,11 @@ AudioGraph.prototype.pan = function(duration){
  * @param	filename	name of the JSON file to load
  * @param	callback 	callback to execute when the JSON loads
  */
-AudioGraph.prototype.getValues = function(filename, callback){
+AudioGraph.prototype.getValues = function(filename){
 	var object = this;
 	$.ajax({
         url: "https://guelphsonification.github.io/Files/" + filename + ".json",
-        crossDomain: true,
-        headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET",
-            "Access-Control-Max-Age": "604800"
-        },
-        success: function(results){ callback(); object.setValues(results);}
+        dataType: 'jsonp'
     });
 }
 

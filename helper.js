@@ -1,3 +1,5 @@
+var audioGraph;
+
 /**
  * Creates a new audio graph object based on the function specified.
  * Creates a button to play the audio graph.
@@ -7,7 +9,7 @@
  * @param	div			div to create the button on
  */
 function addAudioGraph(expression, duration, div) {
-	var audioGraph = new AudioGraph(expression, function(){document.getElementById(expression).style.display = "block";});
+	audioGraph = new AudioGraph(expression);
 	var container = document.getElementById(div);
 	
 	var button = document.createElement("h3");
@@ -20,6 +22,11 @@ function addAudioGraph(expression, duration, div) {
 	writeStyle();
 
 	container.appendChild(button);
+}
+
+function callback(id, data) {
+    document.getElementById(id).style.display = "block";
+    audioGraph.setValues(data);
 }
 
 
