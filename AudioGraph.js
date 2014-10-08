@@ -108,12 +108,11 @@ AudioGraph.prototype.pan = function(duration){
  */
 AudioGraph.prototype.getValues = function(filename, callback){
 	var object = this;
-	var jqxhr = $.ajax({
+	$.ajax({
         url: "https://guelphsonification.github.io/Files/" + filename + ".json",
+        dataType: 'JSONP',
+        jsonpCallback: 'callback',
         type: 'GET',
-        crossDomain: true,
-        jsonp: 'callback',
-        dataType: 'jsonp',
         success: function(results){ callback(); object.setValues(results);}
     });
 }
