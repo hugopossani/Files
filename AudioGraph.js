@@ -110,9 +110,7 @@ AudioGraph.prototype.getValues = function(filename, callback){
 	var object = this;
 	$.ajax({
         url: "https://guelphsonification.github.io/Files/" + filename + ".json",
-        dataType: 'JSONP',
-        jsonpCallback: 'callback',
-        type: 'GET',
+        headers: {"Access-Control-Allow-Origin": "https://guelphsonification.github.io/"},
         success: function(results){ callback(); object.setValues(results);}
     });
 }
