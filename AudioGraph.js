@@ -138,13 +138,17 @@ AudioGraph.prototype.setValues = function(result){
 		if (this.data.values[i] < 0) {
 			if (this.data.minVal < 0) {
 				this.freqValuesLow[i] = offset + ((this.data.values[i] - this.data.minVal) * ratio);
+				this.freqValuesHigh[i] = 0;
 			} else {
 				this.freqValuesLow[i] = offset + (this.data.values[i] * ratio);
+				this.freqValuesHigh[i] = 0;
 			}
 		} else {
 			if (this.data.minVal < 0) {
+				this.freqValuesLow[i] = 0;
 				this.freqValuesHigh[i] = offset + ((this.data.values[i] - this.data.minVal) * ratio);
 			} else {
+				this.freqValuesLow[i] = 0;
 				this.freqValuesHigh[i] = offset + (this.data.values[i] * ratio);
 			}
 		}
