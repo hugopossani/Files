@@ -38,13 +38,13 @@ AudioGraph.prototype.play = function(duration){
 	//create audio nodes
 	this.node_gain = context.createGain();
 	this.node_panner = context.createPanner();
-	//var node_oscillator_high = context.createOscillator();
+	var node_oscillator_high = context.createOscillator();
 	var node_oscillator_low = context.createOscillator();
 	
 	// connect nodes
 	//this.node_gain.connect(this.node_panner);
 	this.node_panner.connect(context.destination);
-	//node_oscillator_high.connect(this.node_gain); // Connect sound to output
+	node_oscillator_high.connect(this.node_panner); // Connect sound to output
 	node_oscillator_low.connect(this.node_panner); // Connect sound to output
 	
 	context.listener.setPosition(0,0,0); // centers the listener in the 3d audio space so that the sound goes evenly around the listener
@@ -57,14 +57,15 @@ AudioGraph.prototype.play = function(duration){
 
 	// rolled my own setValueCurveAtTime since setValueCurveAtTime glitches when played multiple times, dont know why...
 	for(var i = 0; i < this.nvalues; i++){
+		node_oscillator_high.frequency.setValueAtTime(this.freqValuesHigh[i],startTime+(step*i));
 		node_oscillator_low.frequency.setValueAtTime(this.freqValuesLow[i],startTime+(step*i));
-		node_oscillator_low.type.setValueAtTime(this.freqValuesHigh[i],startTime+(step*i));
 		//this.node_gain.gain.setValueAtTime(this.gain_values[i],startTime+(step*i));
 	}
 
-	//node_oscillator_high.start(startTime); // Play instantly
-	//node_oscillator_high.stop(endTime); // Stop after designated time period 
+	node_oscillator_high.start(startTime); // Play instantly
+	node_oscillator_high.stop(endTime); // Stop after designated time period 
 
+	node_oscillator_low.type = 1;
 	node_oscillator_low.start(startTime); // Play instantly
 	node_oscillator_low.stop(endTime); // Stop after designated time period
 
@@ -127,25 +128,25 @@ AudioGraph.prototype.setValues = function(result){
 
 	this.freqValuesHigh = new Float32Array(this.nvalues); // values to set the frequency to during playback
 	this.freqValuesLow = new Float32Array(this.nvalues); // values to set the frequency to during playback
-	//this.gain_values = new Float32Array(this.nvalues); // values to set the gain to during playback
+	this.gain_values = new Float32Array(this.nvalues); // values to set the gain to during playback
 
 	// Sets the frequency and gain values based on the expression provided
 	for(var i = 0;i<this.nvalues; i++){
 		var offset = 300 - this.data.minVal;
 		var ratio = 3100 / (this.data.maxVal - this.data.minVal);
 
-		if (this.data.minVal < 0) {
-			this.freqValuesLow[i] = offset + ((this.data.values[i] - this.data.minVal) * ratio);
-		} else {
-			this.freqValuesLow[i] = offset + (this.data.values[i] * ratio);
-		}
-
-		//this.freqValuesHigh[i] = this.freqValuesLow[i] * Math.pow(2, (1/3));
-
 		if (this.data.values[i] < 0) {
-			this.freqValuesHigh[i] = 0;
+			if (this.data.minVal < 0) {
+				this.freqValuesLow[i] = offset + ((this.data.values[i] - this.data.minVal) * ratio);
+			} else {
+				this.freqValuesLow[i] = offset + (this.data.values[i] * ratio);
+			}
 		} else {
-			this.freqValuesHigh[i] = 1;
+			if (this.data.minVal < 0) {
+				this.freqValuesHigh[i] = offset + ((this.data.values[i] - this.data.minVal) * ratio);
+			} else {
+				this.freqValuesHigh[i] = offset + (this.data.values[i] * ratio);
+			}
 		}
 	}
 }
