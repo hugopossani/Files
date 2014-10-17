@@ -36,7 +36,6 @@ function AudioGraph(expression){
  */
 AudioGraph.prototype.play = function(duration){
 	//create audio nodes
-	this.node_gain = context.createGain();
 	this.node_panner = context.createPanner();
 	var node_oscillator_high = context.createOscillator();
 	var node_oscillator_low = context.createOscillator();
@@ -59,7 +58,6 @@ AudioGraph.prototype.play = function(duration){
 	for(var i = 0; i < this.nvalues; i++){
 		node_oscillator_high.frequency.setValueAtTime(this.freqValuesHigh[i],startTime+(step*i));
 		node_oscillator_low.frequency.setValueAtTime(this.freqValuesLow[i],startTime+(step*i));
-		//this.node_gain.gain.setValueAtTime(this.gain_values[i],startTime+(step*i));
 	}
 
 	node_oscillator_high.start(startTime); // Play instantly
@@ -128,7 +126,6 @@ AudioGraph.prototype.setValues = function(result){
 
 	this.freqValuesHigh = new Float32Array(this.nvalues); // values to set the frequency to during playback
 	this.freqValuesLow = new Float32Array(this.nvalues); // values to set the frequency to during playback
-	this.gain_values = new Float32Array(this.nvalues); // values to set the gain to during playback
 
 	// Sets the frequency and gain values based on the expression provided
 	for(var i = 0;i<this.nvalues; i++){
