@@ -20,8 +20,8 @@ function AudioGraph(expression){
 
 	this.data = null;
 	this.nvalues = null;
-	this.freqValuesHigh = null;
-//	this.freqValuesLow = null;
+//	this.freqValuesHigh = null;
+	this.freqValuesLow = null;
 
 	this.getValues(expression);
 };
@@ -36,13 +36,13 @@ function AudioGraph(expression){
 AudioGraph.prototype.play = function(duration){
 	//create audio nodes
 	this.node_panner = context.createPanner();
-	var node_oscillator_high = context.createOscillator();
-//	var node_oscillator_low = context.createOscillator();
+//	var node_oscillator_high = context.createOscillator();
+	var node_oscillator_low = context.createOscillator();
 	
 	// connect nodes
 	this.node_panner.connect(context.destination);
-	node_oscillator_high.connect(this.node_panner); // Connect sound to output
-//	node_oscillator_low.connect(this.node_panner); // Connect sound to output
+//	node_oscillator_high.connect(this.node_panner); // Connect sound to output
+	node_oscillator_low.connect(this.node_panner); // Connect sound to output
 	
 	context.listener.setPosition(0,0,0); // centers the listener in the 3d audio space so that the sound goes evenly around the listener
 	this.node_panner.setPosition(-1,0,0); // defaults the paning to start at the far left x = -1
@@ -54,17 +54,17 @@ AudioGraph.prototype.play = function(duration){
 
 	// rolled my own setValueCurveAtTime since setValueCurveAtTime glitches when played multiple times, dont know why...
 	for(var i = 0; i < this.nvalues; i++){
-		node_oscillator_high.frequency.setValueAtTime(this.freqValuesHigh[i],startTime+(step*i));
-//		node_oscillator_low.frequency.setValueAtTime(this.freqValuesLow[i],startTime+(step*i));
+//		node_oscillator_high.frequency.setValueAtTime(this.freqValuesHigh[i],startTime+(step*i));
+		node_oscillator_low.frequency.setValueAtTime(this.freqValuesLow[i],startTime+(step*i));
 	}
 
-	node_oscillator_high.type = 0;
-	node_oscillator_high.start(startTime); // Play instantly
-	node_oscillator_high.stop(endTime); // Stop after designated time period 
+//	node_oscillator_high.type = 0;
+//	node_oscillator_high.start(startTime); // Play instantly
+//	node_oscillator_high.stop(endTime); // Stop after designated time period 
 
-//	node_oscillator_low.type = 0;
-//	node_oscillator_low.start(startTime); // Play instantly
-//	node_oscillator_low.stop(endTime); // Stop after designated time period
+	node_oscillator_low.type = 0;
+	node_oscillator_low.start(startTime); // Play instantly
+	node_oscillator_low.stop(endTime); // Stop after designated time period
 
 	this.pan(duration);
 };
