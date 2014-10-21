@@ -60,10 +60,11 @@ AudioGraph.prototype.play = function(duration){
 		node_oscillator_low.frequency.setValueAtTime(this.freqValuesLow[i],startTime+(step*i));
 	}
 
+	node_oscillator_high.type = 0;
 	node_oscillator_high.start(startTime); // Play instantly
 	node_oscillator_high.stop(endTime); // Stop after designated time period 
 
-	node_oscillator_low.type = 2;
+	node_oscillator_low.type = 0;
 	node_oscillator_low.start(startTime); // Play instantly
 	node_oscillator_low.stop(endTime); // Stop after designated time period
 
