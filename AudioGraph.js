@@ -22,7 +22,6 @@ function AudioGraph(expression){
 	this.nvalues = null;
 	this.freqValuesHigh = null;
 	this.freqValuesLow = null;
-	this.gain_values = null;
 
 	this.getValues(expression);
 };
@@ -41,7 +40,6 @@ AudioGraph.prototype.play = function(duration){
 	var node_oscillator_low = context.createOscillator();
 	
 	// connect nodes
-	//this.node_gain.connect(this.node_panner);
 	this.node_panner.connect(context.destination);
 	node_oscillator_high.connect(this.node_panner); // Connect sound to output
 	node_oscillator_low.connect(this.node_panner); // Connect sound to output
